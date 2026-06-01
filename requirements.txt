@@ -1,0 +1,6 @@
+# Core — needed from Lesson 01
+anthropic>=0.40.0
+python-dotenv>=1.0.0
+
+# Used by later arcs (skills, config). Safe to install now.
+pyyaml>=6.0
