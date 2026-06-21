@@ -16,7 +16,7 @@ Decisions come from an **ordered ruleset**. A rule matches by tool name (or `*`)
 
 ```python
 rules = [
-    Rule("bash", "deny", when=lambda i: "rm -rf" in i["command"]),  # specific danger first
+    Rule("bash", "deny", when=lambda i: "rm -rf" in i.get("command", "")),  # specific danger first
     Rule("bash", "allow"),                                          # then the general case
     Rule("*",    "ask"),                                            # everything else: ask
 ]

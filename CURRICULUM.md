@@ -49,7 +49,7 @@ Each lesson adds **one** harness mechanism on top of the unchanging agent loop, 
 |---|---|---|---|---|
 | 16 | Task Graphs | *Big goals persist to disk as ordered tasks* | A file-backed task graph with `blockedBy` dependencies | ✅ |
 | 17 | Background & Async | *Slow work goes async; the agent keeps thinking* | Threaded execution + a completion-notification queue | ✅ |
-| 18 | Cron / Self-Scheduling | *The agent can wake itself* | Durable scheduled triggers fired by time | ✅ |
+| 18 | Cron / Self-Scheduling | *The agent can wake itself* | Scheduled triggers fired by an injectable clock | ✅ |
 | 19 | Agent Teams & Protocols | *Too big for one — coordinate many* | Persistent teammates + an async mailbox + a request/reply protocol | ✅ |
 | 20 | Worktree Isolation | *Each agent gets its own room* | Bind tasks to git worktrees so parallel agents don't collide | ✅ |
 | 21 | Autonomous Agents | *Agents that claim their own work* | An idle loop where agents self-claim work from a board | ✅ |

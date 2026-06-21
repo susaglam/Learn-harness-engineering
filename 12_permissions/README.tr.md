@@ -18,7 +18,7 @@ Kararlar **sıralı bir ruleset'ten** (kural kümesi) gelir. Bir rule (kural), t
 
 ```python
 rules = [
-    Rule("bash", "deny", when=lambda i: "rm -rf" in i["command"]),  # önce spesifik tehlike
+    Rule("bash", "deny", when=lambda i: "rm -rf" in i.get("command", "")),  # önce spesifik tehlike
     Rule("bash", "allow"),                                          # sonra genel durum
     Rule("*",    "ask"),                                            # geri kalan: sor
 ]

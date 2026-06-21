@@ -51,7 +51,7 @@ Her ders, değişmeyen agent loop'un üzerine **bir** harness mekanizması ekler
 |---|---|---|---|---|
 | 16 | Task Graphs | *Büyük hedef diske sıralı task olur* | `blockedBy` bağımlılıklı, diske yazılı task grafiği | ✅ |
 | 17 | Background & Async | *Yavaş iş arka plana, ajan düşünmeye devam* | İş-parçacıklı çalıştırma + tamamlanma bildirim kuyruğu | ✅ |
-| 18 | Cron / Self-Scheduling | *Ajan kendini uyandırabilir* | Zamanla tetiklenen kalıcı zamanlanmış görevler | ✅ |
+| 18 | Cron / Self-Scheduling | *Ajan kendini uyandırabilir* | Enjekte edilebilir bir saatle tetiklenen zamanlanmış görevler | ✅ |
 | 19 | Agent Teams & Protocols | *Tek ajana büyük gelen iş → koordinasyon* | Kalıcı takım arkadaşları + async mailbox + istek/yanıt protokolü | ✅ |
 | 20 | Worktree Isolation | *Her ajana kendi odası* | Task'ları git worktree'lere bağla; paralel ajanlar çakışmasın | ✅ |
 | 21 | Autonomous Agents | *İşini kendi çeken ajanlar* | Ajanların panodan işi kendi aldığı bir idle (boşta) döngüsü | ✅ |
