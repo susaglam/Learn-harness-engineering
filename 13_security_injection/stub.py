@@ -11,8 +11,8 @@ from __future__ import annotations
 import re
 
 INJECTION_PATTERNS = [
-    r"ignore\b.{0,40}instructions",
-    r"disregard\b.{0,40}(instructions|above|previous|system)",
+    r"ignore\b.{0,40}instructions?",
+    r"disregard\b.{0,40}(instructions?|above|previous|system)",
     r"reveal\b.{0,40}prompt",
     r"print\b.{0,40}prompt",
     r"you are now\b",
@@ -22,10 +22,9 @@ INJECTION_PATTERNS = [
 
 def detect_injection(text: str) -> list[str]:
     # =========================================================================
-    # TODO(you):
-    #   1. Lower-case the text.
-    #   2. Return the list of patterns in INJECTION_PATTERNS for which
-    #      re.search(pattern, lowered_text) finds a match.
+    # TODO(you): return every pattern in INJECTION_PATTERNS that matches `text`.
+    #   Use re.search(pattern, str(text), re.IGNORECASE | re.DOTALL) so matching
+    #   is case-insensitive AND survives newlines in scraped multi-line content.
     # =========================================================================
     raise NotImplementedError("Implement detect_injection - see the TODO above")
 

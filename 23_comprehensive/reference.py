@@ -60,12 +60,18 @@ def run_agent(client, model, messages, registry, permission, trace, max_turns=10
         results = []
         for b in last.content:
             if getattr(b, "type", None) == "tool_use":
-                if permission(b.name, b.input) == "deny":
-                    trace.record("denied", name=b.name)
-                    out = f"DENIED: tool '{b.name}' is not permitted"
-                else:
+                decision = permission(b.name, b.input)
+                if decision == "allow":
                     trace.record("tool_call", name=b.name, input=b.input)
                     out = registry.dispatch(b.name, b.input)
+                elif decision == "deny":
+                    trace.record("denied", name=b.name)
+                    out = f"DENIED: tool '{b.name}' is not permitted"
+                else:  # "ask" (or anything not 'allow'): needs approval -> NOT executed
+                    trace.record("ask", name=b.name)
+                    out = f"ASK: tool '{b.name}' needs human approval (not executed)"
                 results.append({"type": "tool_result", "tool_use_id": b.id, "content": out})
         messages.append({"role": "user", "content": results})
+
+    trace.record("exhausted", turns=max_turns)   # terminal: turn budget hit, never finished
     return last

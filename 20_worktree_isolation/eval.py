@@ -36,7 +36,15 @@ def main():
     check("allocated directory is under base_dir",
           isinstance(p1, str) and "agents" in p1.replace("\\", "/"), repr(p1)[:60])
 
-    reg.release("t1")
+    # --- the binding must be STORED (a stateless 'derive' allocate fails here) ---
+    check("the binding is stored in by_task", reg.by_task.get("t1") == p1,
+          f"by_task={getattr(reg, 'by_task', None)}")
+
+    released = safe(lambda: reg.release("t1"))
+    check("release returns the previously-bound path", released == p1, repr(released)[:60])
+    check("release removes the binding", "t1" not in reg.by_task,
+          f"by_task still has t1: {reg.by_task}")
+
     p1c = safe(lambda: reg.allocate("t1"))
     check("a task can be allocated again after release",
           isinstance(p1c, str) and not p1c.startswith("__RAISED__"), repr(p1c)[:60])

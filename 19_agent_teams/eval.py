@@ -47,6 +47,15 @@ def main():
     check("messages are isolated by recipient (C got nothing)",
           isinstance(c_inbox, list) and c_inbox == [], repr(c_inbox)[:50])
 
+    # --- FIFO: two messages to one inbox return in SEND order (rejects LIFO) ---
+    fifo = mod.MessageBus()
+    safe(lambda: fifo.send("Z", "A", "msg", "ping1"))
+    safe(lambda: fifo.send("Z", "A", "msg", "ping2"))
+    z = safe(lambda: fifo.recv("Z"))
+    check("messages are delivered FIFO (send order preserved)",
+          isinstance(z, list) and [m.get("body") for m in z] == ["ping1", "ping2"],
+          f"got {[m.get('body') for m in z] if isinstance(z, list) else z}")
+
     report("Lesson 19 - Agent Teams & Protocols")
 
 

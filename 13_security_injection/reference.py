@@ -14,19 +14,22 @@ from __future__ import annotations
 import re
 
 INJECTION_PATTERNS = [
-    r"ignore\b.{0,40}instructions",
-    r"disregard\b.{0,40}(instructions|above|previous|system)",
+    r"ignore\b.{0,40}instructions?",
+    r"disregard\b.{0,40}(instructions?|above|previous|system)",
     r"reveal\b.{0,40}prompt",
     r"print\b.{0,40}prompt",
     r"you are now\b",
     r"</?system>",
 ]
 
+# IGNORECASE: case-insensitive. DOTALL: '.' also matches newlines, so a payload
+# split across lines ("ignore\nall previous\ninstructions") still trips.
+_FLAGS = re.IGNORECASE | re.DOTALL
+
 
 def detect_injection(text: str) -> list[str]:
-    """Return the list of suspicious patterns found (case-insensitive)."""
-    t = str(text).lower()
-    return [p for p in INJECTION_PATTERNS if re.search(p, t)]
+    """Return the list of suspicious patterns found (case-insensitive, multi-line)."""
+    return [p for p in INJECTION_PATTERNS if re.search(p, str(text), _FLAGS)]
 
 
 def wrap_untrusted(content: str, source: str = "external") -> str:

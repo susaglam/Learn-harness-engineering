@@ -52,6 +52,9 @@ def main():
     check("sent corrective feedback on the retry",
           any("invalid" in str(f).lower() for f in fm.feedbacks[1:]),
           "retry feedback should mention the validation error")
+    check("the first attempt sends no feedback (model isn't pre-blamed)",
+          bool(fm.feedbacks) and fm.feedbacks[0] == "",
+          f"first feedback should be empty, got {fm.feedbacks[:1]!r}")
 
     never = FakeModel(['{"name": "x"}'])  # always missing score
     res2 = safe(lambda: mod.request_structured(never, schema, max_retries=2))

@@ -53,6 +53,17 @@ def main():
     check("tasks round-trip through disk (save/load)",
           mod.load(tmp) == tasks, "persisted graph should reload identically")
 
+    # --- edge cases that make next_ready non-trivial ---
+    edge = [
+        {"id": "noKey", "status": "pending"},                          # no 'blockedBy' key
+        {"id": "dangling", "status": "pending", "blockedBy": ["ZZZ"]}, # dep not on the board
+    ]
+    re2 = safe(lambda: mod.next_ready(edge))
+    check("a task with no 'blockedBy' key is ready (uses the .get default)",
+          isinstance(re2, list) and "noKey" in _ids(re2), f"got {_ids(re2)}")
+    check("a task blocked by a non-existent id is NEVER ready",
+          isinstance(re2, list) and "dangling" not in _ids(re2), f"got {_ids(re2)}")
+
     report("Lesson 16 - Task Graphs")
 
 

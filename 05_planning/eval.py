@@ -24,7 +24,7 @@ def main():
     out = safe(lambda: store.write([
         {"content": "design", "status": "completed"},
         {"content": "build", "status": "in_progress"},
-        {"content": "test"},  # no status -> defaults to pending
+        {"content": "  test  "},  # no status -> pending; whitespace must be stripped
     ]))
 
     check("write stored all three todos",
@@ -33,6 +33,9 @@ def main():
     check("missing status defaults to 'pending'",
           safe(lambda: store.todos[2]["status"]) == "pending",
           "third todo should default to pending")
+    check("content is .strip()-normalized",
+          safe(lambda: store.todos[2]["content"]) == "test",
+          "leading/trailing whitespace not stripped")
     check("rendered view shows progress count (1/3 done)",
           "1/3 done" in str(out), repr(out)[:90])
     check("rendered view marks completed items with [x]",

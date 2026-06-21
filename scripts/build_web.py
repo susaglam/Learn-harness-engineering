@@ -26,9 +26,13 @@ def read(rel: str) -> str:
     return ""
 
 
+_ACRONYMS = {"Mcp": "MCP", "Io": "IO", "Api": "API"}
+
+
 def lesson_title(folder: str) -> str:
     num, _, rest = folder.partition("_")
-    return f"{num} · " + rest.replace("_", " ").title()
+    words = [_ACRONYMS.get(w, w) for w in rest.replace("_", " ").title().split()]
+    return f"{num} · " + " ".join(words)
 
 
 def build_pages():
@@ -119,6 +123,26 @@ HTML = r"""<!doctype html>
     }
     nav.innerHTML = html;
   }
+  // Markdown links point at repo files (./stub.py, ../CURRICULUM.md, README.tr.md).
+  // Rewrite them into in-app actions so the SPA doesn't navigate away or 404.
+  function rewriteLinks(){
+    document.querySelectorAll("#content a").forEach(a => {
+      const href = a.getAttribute("href") || "";
+      if (/^https?:/i.test(href)) { a.target="_blank"; a.rel="noopener noreferrer"; return; }
+      const base = href.split("/").pop().toLowerCase();
+      const act = (fn) => { a.removeAttribute("href"); a.style.cursor="pointer";
+                            a.onclick = (e) => { e.preventDefault(); fn(); }; };
+      if (base === "readme.tr.md" || base === "terminoloji.tr.md") act(() => setLang("tr"));
+      else if (base === "readme.en.md" || base === "glossary.md") act(() => setLang("en"));
+      else if (base === "curriculum.md" || base === "curriculum.tr.md") act(() => go("curriculum"));
+      else if (base === "readme.md") act(() => go("home"));
+      else if (base.endsWith(".md")) {
+        const m = href.match(/(\d\d_[a-z_]+)/);               // a lesson README link
+        if (m && byId(m[1])) act(() => go(m[1]));
+        else { a.removeAttribute("href"); a.title = href; }
+      } else { a.removeAttribute("href"); a.title = href; }     // source files: not pages
+    });
+  }
   function render(){
     const p = byId(current); if(!p) return;
     let md = p[lang] || p.en || p.tr || "*(no content)*";
@@ -126,15 +150,26 @@ HTML = r"""<!doctype html>
     // course's own Lesson 13 is about not trusting rendered/external content).
     document.getElementById("content").innerHTML = DOMPurify.sanitize(marked.parse(md));
     document.querySelectorAll("#content pre code").forEach(b => { try{ hljs.highlightElement(b); }catch(e){} });
+    rewriteLinks();
     document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("active", a.dataset.id === current));
     document.getElementById("enBtn").classList.toggle("active", lang==="en");
     document.getElementById("trBtn").classList.toggle("active", lang==="tr");
     window.scrollTo(0,0);
   }
-  function go(id){ current = id; location.hash = id; render(); }
-  function setLang(l){ lang = l; render(); }
+  function syncHash(){ location.hash = lang + "/" + current; }
+  function go(id){ current = id; syncHash(); render(); }
+  function setLang(l){ lang = l; syncHash(); render(); }
+  function readHash(){
+    const raw = location.hash.replace(/^#/, "");
+    const parts = raw.split("/");
+    if (parts.length === 2){
+      if (parts[0] === "en" || parts[0] === "tr") lang = parts[0];
+      if (byId(parts[1])) current = parts[1];
+    } else if (raw && byId(raw)) { current = raw; }            // legacy #id links
+  }
+  window.addEventListener("hashchange", () => { readHash(); render(); });
   buildNav();
-  if (location.hash && byId(location.hash.slice(1))) current = location.hash.slice(1);
+  readHash();
   render();
 </script>
 </body>
@@ -144,9 +179,9 @@ HTML = r"""<!doctype html>
 
 def main():
     pages = build_pages()
-    # Escape every '<' as the JSON unicode escape <. JSON.parse restores it
-    # and marked renders identically, but no '</script>', '<script', or '<!--'
-    # can ever survive in the embedded <script> block (robust HTML-in-JS embed).
+    # Escape every '<' as <. The JS engine restores it when evaluating the
+    # literal and marked renders identically, but no '</script>', '<script', or
+    # '<!--' can survive in the embedded <script> block (robust HTML-in-JS embed).
     data_js = "const DATA = " + json.dumps(pages, ensure_ascii=False).replace("<", "\\u003c") + ";"
     html = HTML.replace("/*DATA*/", data_js)
     os.makedirs(OUT_DIR, exist_ok=True)

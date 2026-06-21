@@ -49,14 +49,14 @@ def run_agent(client, model, messages, registry, permission, trace, max_turns=10
     #      messages.append({"role":"assistant","content":resp.content})
     #   3. if resp.stop_reason != "tool_use":
     #          trace.record("final", text=extract_text(resp)); return resp
-    #   4. For each tool_use block b:
-    #        - if permission(b.name, b.input) == "deny":
-    #              trace.record("denied", name=b.name)
-    #              out = f"DENIED: tool '{b.name}' is not permitted"
-    #          else:
-    #              trace.record("tool_call", name=b.name, input=b.input)
-    #              out = registry.dispatch(b.name, b.input)
+    #   4. For each tool_use block b, branch on permission(b.name, b.input):
+    #        - "allow": trace.record("tool_call", ...); out = registry.dispatch(...)
+    #        - "deny":  trace.record("denied", name=b.name)
+    #                   out = f"DENIED: tool '{b.name}' is not permitted"
+    #        - else ("ask"): trace.record("ask", name=b.name)
+    #                   out = f"ASK: tool '{b.name}' needs human approval (not executed)"
     #        - collect {"type":"tool_result","tool_use_id":b.id,"content":out}
     #   5. messages.append({"role":"user","content":results})
+    #   6. After the loop (turn budget hit): trace.record("exhausted", turns=max_turns)
     # =========================================================================
     raise NotImplementedError("Implement run_agent - see the TODO above")
