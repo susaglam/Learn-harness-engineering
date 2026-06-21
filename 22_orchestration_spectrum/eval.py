@@ -52,6 +52,26 @@ def main():
           isinstance(hybrid, dict) and hybrid.get("bugs", 0) > scripted["bugs"],
           "hybrid should out-score the brittle rule")
 
+    # --- the count must CONSUME each verdict: a different judge -> a different count ---
+    smart2 = dict(SMART)
+    smart2[ITEMS[2]] = "feature"   # this judge now calls item 2 a feature, not a bug
+    h2 = safe(lambda: mod.classify_hybrid(ITEMS, lambda it: smart2[it]))
+    check("a different judge yields a different count (hardcoded bugs=2 fails here)",
+          isinstance(h2, dict) and h2.get("bugs") == 1, f"got {h2!r}"[:80])
+
+    # --- exercise the autonomous arm too (whole task delegated in ONE call) ---
+    auto_calls = []
+
+    def model_solve(items):
+        auto_calls.append(tuple(items))
+        return 2
+
+    auto = safe(lambda: mod.classify_autonomous(ITEMS, model_solve))
+    check("autonomous arm delegates the WHOLE list in a single call",
+          isinstance(auto, dict) and auto.get("style") == "autonomous"
+          and auto.get("bugs") == 2 and len(auto_calls) == 1,
+          f"auto={auto}, calls={len(auto_calls)}")
+
     report("Lesson 22 - The Orchestration Spectrum")
 
 

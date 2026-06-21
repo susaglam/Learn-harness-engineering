@@ -28,5 +28,11 @@ def run_with_recovery(fn, fallback, max_retries: int = 3):
         except PermanentError:
             return fallback(), {"outcome": "fallback", "reason": "permanent",
                                 "attempts": attempt}
+        except Exception:
+            # Unknown / out-of-taxonomy error: don't retry blindly. Fall back
+            # (safe default) so an unclassified exception can't crash the loop
+            # the lesson promises to keep alive.
+            return fallback(), {"outcome": "fallback", "reason": "unclassified",
+                                "attempts": attempt}
     return fallback(), {"outcome": "fallback", "reason": "exhausted",
                         "attempts": max_retries}

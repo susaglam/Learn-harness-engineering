@@ -51,13 +51,14 @@ Gerçek bir spektrumdur:
 
 ## Çekirdek desen
 
-Her ders bu döngünün üzerine bir mekanizma ekler. Döngü asla değişmez.
+Her ders bu döngünün üzerine bir mekanizma ekler. *Kavramsal* döngü asla değişmez — ama production runtime'ı etrafında bir execution policy (yürütme politikası) büyür: streaming, paralel tool call, cancellation, approval bekleme, resumability. Aşağıdaki, öğretim iskeleti.
 
 ```python
 def agent_loop(client, model, messages, tools, handlers, system=""):
     while True:
         resp = client.messages.create(
             model=model, system=system, messages=messages, tools=tools,
+            max_tokens=1024,          # API tarafından zorunlu
         )
         messages.append({"role": "assistant", "content": resp.content})
 
@@ -94,7 +95,7 @@ Eski yol: bitmiş bir dosyayı oku, başını salla, geç. Kalıcı hiçbir şey
 5. Karşılaştır reference.py ile           → kendi tasarımını bizimkiyle kıyasla
 ```
 
-Evaller çoğunlukla **API key olmadan** çalışır — harness mantığını senaryolu bir sahte modelle sürerler; böylece *modeli* değil, *mühendisliği* test edersin. Bu, alanın en az öğrettiği ama en önemli harness becerisidir: **ölçemiyorsan mühendislik yapmıyorsun — umut ediyorsun.**
+Evallerin tamamı **API key olmadan** çalışır — her biri harness mantığını senaryolu bir sahte modelle sürer; böylece *modeli* değil, *mühendisliği* test edersin. Bu, alanın en az öğrettiği ama en önemli harness becerisidir: **ölçemiyorsan mühendislik yapmıyorsun — umut ediyorsun.**
 
 ---
 
@@ -120,11 +121,12 @@ Mottolarla tam liste: **[CURRICULUM.tr.md](./CURRICULUM.tr.md)**.
 ```sh
 git clone <fork-url-niz> learn-harness-engineering
 cd learn-harness-engineering
-python -m venv .venv && . .venv/Scripts/activate   # Windows: .venv\Scripts\Activate.ps1
+python -m venv .venv
+. .venv/bin/activate              # macOS/Linux  ·  Windows (PowerShell): .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-cp .env.example .env                                # API key ekle (Anthropic-uyumlu herhangi bir sağlayıcı)
+cp .env.example .env              # API key ekle  ·  Windows: copy .env.example .env
 
-# Ders 1: çoğu eval API key GEREKTİRMEZ — senaryolu sahte model kullanır.
+# Ders 1: eval'ler API key GEREKTİRMEZ — senaryolu sahte model kullanır.
 python 01_agent_loop/eval.py        # RED
 #   ...01_agent_loop/stub.py içindeki TODO'yu uygula...
 python 01_agent_loop/eval.py        # GREEN
@@ -150,9 +152,10 @@ learn-harness-engineering/
   docs/
     philosophy.md / .tr.md        # tez & orkestrasyon spektrumu, derinlemesine
     methodology.md / .tr.md       # eval-driven öğretim yöntemi, derinlemesine
+    glossary.md / terminoloji.tr.md  # yeni-başlayan sözlüğü (EN / TR)
   harness/                        # paylaşılan, sağlayıcı-bağımsız altyapı
     client.py                     #   .env'den Anthropic-uyumlu client kur
-    loop.py                       #   kanonik agent loop (ders 2+ bunu import eder)
+    loop.py                       #   referans kanonik loop (dersler pedagoji için kendi loop'unu tutar)
     evals.py                      #   küçük bir RED/GREEN eval runner
   01_agent_loop/                  # her ders: README.en/tr + reference + stub + eval
     README.en.md / README.tr.md

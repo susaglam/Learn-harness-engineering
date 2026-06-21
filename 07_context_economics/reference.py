@@ -26,17 +26,23 @@ def total_tokens(messages) -> int:
 
 
 def compact(messages, budget: int, keep_recent: int = 2):
-    """Return a new message list under `budget` when possible.
+    """Shorten the conversation by dropping the MIDDLE.
 
-    Strategy: keep messages[0] (the seed), drop the middle, keep the last
-    `keep_recent`, and insert a summary marker where the middle was.
+    Strategy: keep messages[0] (the seed) and the last `keep_recent` turns,
+    and replace the dropped middle with a short marker. Assumes keep_recent >= 1.
+
+    NOTE: this is not real summarization — it inserts a placeholder marker, not
+    an LLM-written summary of what it dropped. And it frees only the *middle*: a
+    very large recent tail can still exceed `budget`. A production compactor would
+    summarize the dropped span and trim/condense the tail too.
     """
-    if total_tokens(messages) <= budget:
+    # Under budget, or too short to have a droppable middle -> leave untouched.
+    if total_tokens(messages) <= budget or len(messages) <= keep_recent + 1:
         return list(messages)
 
     head = messages[:1]
-    tail = messages[-keep_recent:] if keep_recent else []
-    dropped = messages[1: len(messages) - keep_recent] if keep_recent else messages[1:]
+    tail = messages[-keep_recent:]
+    dropped = messages[1: len(messages) - keep_recent]
     summary = {
         "role": "user",
         "content": f"[compacted {len(dropped)} earlier messages to save context]",

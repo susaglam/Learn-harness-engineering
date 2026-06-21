@@ -52,7 +52,8 @@ def load_lesson(here: str):
     # Unique module name per (lesson, target) so an in-process runner could load
     # many lessons without colliding in sys.modules.
     tag = "ref" if os.environ.get("LHE_SOLUTION") else "stub"
-    spec_name = f"lhe_target_{os.path.basename(here.rstrip(os.sep))}_{tag}"
+    # normpath collapses trailing slashes and mixed separators cross-platform.
+    spec_name = f"lhe_target_{os.path.basename(os.path.normpath(here))}_{tag}"
     spec = importlib.util.spec_from_file_location(spec_name, path)
     mod = importlib.util.module_from_spec(spec)
     assert spec.loader is not None

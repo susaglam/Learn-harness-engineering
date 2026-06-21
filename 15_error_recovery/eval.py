@@ -63,6 +63,13 @@ def main():
     check("exhaustion tried exactly max_retries times",
           ok3 and f3.calls == 3, f"calls={f3.calls}")
 
+    f4 = Flaky(99, RuntimeError)                  # an UNCLASSIFIED error (not T/P)
+    r4 = safe(lambda: mod.run_with_recovery(f4, fb, max_retries=3))
+    ok4 = isinstance(r4, tuple) and len(r4) == 2
+    check("an unclassified error falls back instead of crashing the loop",
+          ok4 and r4[0] == "FALLBACK" and r4[1].get("reason") == "unclassified"
+          and f4.calls == 1, repr(r4)[:80] + f" calls={f4.calls}")
+
     report("Lesson 15 - Error Recovery")
 
 

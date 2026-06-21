@@ -29,10 +29,15 @@ def main():
 
     check("benign text triggers no detections",
           isinstance(benign, list) and len(benign) == 0, repr(benign)[:70])
-    check("an obvious injection is detected",
-          isinstance(attack, list) and len(attack) >= 1, repr(attack)[:70])
-    check("detection catches BOTH the 'ignore' and 'reveal prompt' phrases",
-          isinstance(attack, list) and len(attack) >= 2, repr(attack)[:70])
+    hits = set(attack if isinstance(attack, list) else [])
+    check("detects the SPECIFIC 'ignore ... instructions' pattern (not a bare keyword)",
+          any("ignore" in p and "instructions" in p for p in hits), f"hits={hits}")
+    check("detects the 'reveal ... prompt' pattern",
+          any("reveal" in p and "prompt" in p for p in hits), f"hits={hits}")
+    bait = safe(lambda: mod.detect_injection(
+        "The assembly instructions tell you to ignore the warning label."))
+    check("keyword-bait is NOT flagged (regex order matters, not substring soup)",
+          bait == [], f"false positive on benign text: {bait}")
     check("detection is case-insensitive",
           isinstance(upper, list) and len(upper) >= 1, repr(upper)[:70])
     check("wrap_untrusted fences content as untrusted data",

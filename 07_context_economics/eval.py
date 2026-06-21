@@ -39,6 +39,9 @@ def main():
           f"new={new}, budget={budget}")
     check("kept the seed (first) message", is_list and out[0] == msgs[0], "seed dropped")
     check("kept the most recent message", is_list and out[-1] == msgs[-1], "recent dropped")
+    check("kept ALL keep_recent recent messages (the second-to-last too)",
+          is_list and len(out) >= 2 and out[-2] == msgs[-2],
+          "a keep_recent>1 message was dropped")
     check("inserted a compaction marker",
           is_list and any("compact" in str(m.get("content", "")).lower() for m in out),
           "no summary marker")

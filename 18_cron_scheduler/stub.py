@@ -16,8 +16,11 @@ def due(jobs, now):
     #   for j in jobs:
     #       if j["next_run"] <= now:
     #           fired.append(j)
-    #           while j["next_run"] <= now:        # catch up if we missed ticks
-    #               j["next_run"] += j["interval"]
+    #           if j["interval"] > 0:
+    #               while j["next_run"] <= now:    # catch up if we missed ticks
+    #                   j["next_run"] += j["interval"]
+    #           else:
+    #               j["next_run"] = float("inf")   # one-shot: fire once, don't spin
     #   return fired
     # =========================================================================
     raise NotImplementedError("Implement due - see the TODO above")

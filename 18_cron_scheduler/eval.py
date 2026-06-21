@@ -51,6 +51,14 @@ def main():
           _ids(firedD) == ["hourly"] and jobsD[0]["next_run"] == 7200,
           f"next_run={jobsD[0]['next_run']}")
 
+    # --- a non-positive interval must NOT spin forever: fire once, then never ---
+    oneshot = [{"id": "once", "interval": 0, "next_run": 0}]
+    f0 = safe(lambda: mod.due(oneshot, 5))
+    check("a 0/negative interval fires once and does not hang or refire",
+          isinstance(f0, list) and len(f0) == 1
+          and safe(lambda: mod.due(oneshot, 10**9)) == [],
+          f"got {f0}")
+
     report("Lesson 18 - Cron / Self-Scheduling")
 
 

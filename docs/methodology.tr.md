@@ -41,7 +41,7 @@ Bir harness hatası ile bir model hatası dışarıdan aynı görünür; bu da a
 - **Ücretsiz & çevrimdışı** — API key yok, token maliyeti yok, CI'da çalışır.
 - **Dürüst** — GREEN eval, *senin döngün/mantığın* doğru demektir; "model tesadüfen işbirliği yaptı" demek değil.
 
-Gerçekten canlı model gerektiren dersler (örn. retrieval kalitesi) bunu söyler ve o kısmı API key arkasına koyar; yapısal kontrolleri çevrimdışı tutar.
+Buradaki her eval senaryolu bir sahte modele karşı çevrimdışı çalışır — retrieval (Ders 09) bile deterministik bir bag-of-words embedding kullanır, böylece kontrol tekrarlanabilir. Gerçek bir dağıtım canlı model çağrılarını yerine koyar; eval mekanizması aynıdır.
 
 ```python
 # sahte-model eval'inin biçimi (Ders 01)

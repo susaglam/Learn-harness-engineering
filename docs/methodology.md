@@ -39,7 +39,7 @@ A harness bug and a model mistake look the same from the outside, which makes ag
 - **Free & offline** — no API key, no token cost, runs in CI.
 - **Honest** — a GREEN eval means *your loop/logic* is correct, not that "the model happened to cooperate."
 
-Lessons that genuinely require a live model (e.g. retrieval quality) say so and gate that part behind an API key, while keeping the structural checks offline.
+Every eval here runs offline against a scripted fake model — even retrieval (Lesson 09) uses a deterministic bag-of-words embedding so the check is reproducible. A real deployment swaps in live model calls; the eval mechanism is identical.
 
 ```python
 # the shape of a fake-model eval (Lesson 01)

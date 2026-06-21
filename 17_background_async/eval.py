@@ -47,6 +47,29 @@ def main():
     check("drain returned exactly two notifications", is_list and len(notes) == 2,
           f"len={len(notes) if is_list else 'n/a'}")
 
+    # --- prove start() is NON-BLOCKING and threaded (a synchronous stub fails) ---
+    import threading
+    gate = threading.Event()
+
+    def gated():
+        gate.wait(2)          # block until the test releases it
+        return "GATED_DONE"
+
+    runner2 = mod.BackgroundRunner()
+    safe(lambda: runner2.start("gated", gated))
+    check("start() returns BEFORE the job finishes (ran on a background thread)",
+          bool(getattr(runner2, "_threads", None)) and runner2.notifications.empty(),
+          "a synchronous start() would block until the job posted its result")
+    gate.set()
+    notes2 = safe(lambda: runner2.drain())
+    check("the gated job completes after release and is delivered",
+          isinstance(notes2, list) and any(n.get("result") == "GATED_DONE" for n in notes2),
+          f"notes2={notes2}")
+    check("the runner used a real threading.Thread",
+          bool(getattr(runner2, "_threads", None))
+          and isinstance(runner2._threads[0], threading.Thread),
+          "expected a threading.Thread in _threads")
+
     report("Lesson 17 - Background & Async")
 
 

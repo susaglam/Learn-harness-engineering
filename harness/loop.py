@@ -1,6 +1,8 @@
 """The canonical agent loop — the graduated version of Lesson 01.
 
-Lessons 2+ import `run_agent` from here instead of rewriting the loop.
+`run_agent` is a reference implementation of the loop with the hardening the
+lessons add (error-as-data, unknown-tool messages, edge guards). Lessons keep
+their own loop bodies for pedagogy; this is the polished version to compare against.
 It accepts an injectable `client`, so the same function works against a real
 model or a scripted fake one in evals.
 """
@@ -31,11 +33,12 @@ def run_agent(
         model:     model id; defaults to get_model().
     Returns:
         the final model response (stop_reason != "tool_use").
+    Raises:
+        RuntimeError: if the model never stops within max_turns.
     """
     client = client or get_client()
     model = model or get_model()
 
-    last = None
     for _ in range(max_turns):
         last = client.messages.create(
             model=model,
@@ -52,10 +55,13 @@ def run_agent(
         results = []
         for block in last.content:
             if getattr(block, "type", None) == "tool_use":
-                try:
-                    output = handlers[block.name](**block.input)
-                except Exception as exc:  # a tool error is recoverable signal
-                    output = f"ERROR: {exc}"
+                if block.name not in handlers:
+                    output = f"ERROR: unknown tool '{block.name}'"  # clear recoverable signal
+                else:
+                    try:
+                        output = handlers[block.name](**block.input)
+                    except Exception as exc:  # a tool error is recoverable signal
+                        output = f"ERROR: {exc}"
                 results.append(
                     {
                         "type": "tool_result",
@@ -63,6 +69,12 @@ def run_agent(
                         "content": str(output),
                     }
                 )
+
+        if not results:
+            # stop_reason was "tool_use" but the turn carried no tool_use block.
+            # Posting {"role":"user","content":[]} is rejected by the real API, so
+            # treat this as terminal instead.
+            return last
         messages.append({"role": "user", "content": results})
 
-    return last
+    raise RuntimeError(f"agent did not finish within {max_turns} turns")

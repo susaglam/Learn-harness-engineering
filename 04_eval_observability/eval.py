@@ -41,6 +41,32 @@ def main():
     check("step_count counts tool calls (2)",
           safe(lambda: mod.step_count(traj)) == 2, "expected 2")
 
+    # --- discriminating checks: a kind-blind / first-match scorer must go RED ---
+    traj2 = mod.Trajectory()
+    traj2.record("model_turn", text="note: the word ERROR appears in a NON-final event")
+    traj2.record("final", text="All clear.")
+    check("final_contains keys off the FINAL event, not just any event",
+          safe(lambda: mod.final_contains(traj2, "ERROR")) is False,
+          "scanned a non-final event's text")
+    check("final_contains still finds text in the final event",
+          safe(lambda: mod.final_contains(traj2, "clear")) is True, "expected True")
+
+    traj3 = mod.Trajectory()
+    traj3.record("final", text="first final")
+    traj3.record("final", text="second final")
+    check("final_contains uses the LAST final event when several exist",
+          safe(lambda: mod.final_contains(traj3, "second")) is True
+          and safe(lambda: mod.final_contains(traj3, "first")) is False,
+          "did not use the last final event")
+
+    empty = mod.Trajectory()
+    check("final_contains is False when there is no final event",
+          safe(lambda: mod.final_contains(empty, "anything")) is False, "expected False")
+    check("used_tool is False on an empty trajectory",
+          safe(lambda: mod.used_tool(empty, "bash")) is False, "expected False")
+    check("step_count is 0 on an empty trajectory",
+          safe(lambda: mod.step_count(empty)) == 0, "expected 0")
+
     report("Lesson 04 - Eval & Observability")
 
 

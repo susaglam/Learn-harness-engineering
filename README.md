@@ -47,13 +47,14 @@ Good harness engineering is **choosing the right point on this spectrum for each
 
 ## The core pattern
 
-Every lesson layers one mechanism on top of this loop. The loop never changes.
+Every lesson layers one mechanism on top of this loop. The *conceptual* loop never changes — though a production runtime grows an execution policy around it (streaming, parallel tool calls, cancellation, approval waits, resumability). The shape below is the teaching skeleton.
 
 ```python
 def agent_loop(client, model, messages, tools, handlers, system=""):
     while True:
         resp = client.messages.create(
             model=model, system=system, messages=messages, tools=tools,
+            max_tokens=1024,          # required by the API
         )
         messages.append({"role": "assistant", "content": resp.content})
 
@@ -90,7 +91,7 @@ The old way: read a finished file, nod, move on. You learn nothing durable.
 5. Diff  against reference.py            → compare your design with ours
 ```
 
-Most evals run **without an API key** — they drive your harness logic with a scripted fake model, so you test the *engineering*, not the model. This is the single most important harness skill the field under-teaches: **if you can't measure it, you're not engineering — you're hoping.**
+Every eval runs **without an API key** — each drives your harness logic with a scripted fake model, so you test the *engineering*, not the model. This is the single most important harness skill the field under-teaches: **if you can't measure it, you're not engineering — you're hoping.**
 
 ---
 
@@ -116,11 +117,12 @@ Full list with mottos: **[CURRICULUM.md](./CURRICULUM.md)**.
 ```sh
 git clone <your-fork-url> learn-harness-engineering
 cd learn-harness-engineering
-python -m venv .venv && . .venv/Scripts/activate   # Windows: .venv\Scripts\Activate.ps1
+python -m venv .venv
+. .venv/bin/activate              # macOS/Linux  ·  Windows (PowerShell): .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-cp .env.example .env                                # add your API key (any Anthropic-compatible provider)
+cp .env.example .env              # add your API key  ·  Windows: copy .env.example .env
 
-# Lesson 1: most evals need NO API key — they use a scripted fake model.
+# Lesson 1: evals need NO API key — they use a scripted fake model.
 python 01_agent_loop/eval.py        # RED
 #   ...implement the TODO in 01_agent_loop/stub.py...
 python 01_agent_loop/eval.py        # GREEN
@@ -146,9 +148,10 @@ learn-harness-engineering/
   docs/
     philosophy.md / .tr.md        # the thesis & the orchestration spectrum, in depth
     methodology.md / .tr.md       # the eval-driven teaching method, in depth
+    glossary.md / terminoloji.tr.md  # beginner glossary (EN / TR)
   harness/                        # shared, provider-agnostic infrastructure
     client.py                     #   build an Anthropic-compatible client from .env
-    loop.py                       #   the canonical agent loop (lessons 2+ import this)
+    loop.py                       #   a reference canonical loop (lessons keep their own, for pedagogy)
     evals.py                      #   a tiny RED/GREEN eval runner
   01_agent_loop/                  # each lesson: README.en/tr + reference + stub + eval
     README.en.md / README.tr.md

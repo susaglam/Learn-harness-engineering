@@ -42,6 +42,25 @@ def main():
           isinstance(r3, list) and sum(1 for t in r3 if "Paris" in t) == 2,
           repr(r3)[:90])
 
+    # --- make cosine NORMALIZATION load-bearing: a raw dot-product stub fails here ---
+    # Short on-topic fact vs a keyword-stuffed long one. Raw dot-product ranks the
+    # long fact (3x "deploy") first; length-normalized cosine ranks the short one.
+    m.add("Deploy the release.")
+    m.add("deploy deploy deploy alpha bravo charlie delta echo foxtrot golf hotel "
+          "india juliet kilo lima mike november oscar papa quebec romeo sierra")
+    rd = safe(lambda: m.recall("deploy", 1))
+    check("cosine ranks a short on-topic fact over a keyword-stuffed long one",
+          isinstance(rd, list) and rd and rd[0] == "Deploy the release.",
+          f"a dot-product (un-normalized) impl fails here: {rd!r}"[:110])
+
+    # --- edges ---
+    one = safe(lambda: m.recall("Paris"))
+    check("default k returns exactly one item",
+          isinstance(one, list) and len(one) == 1, repr(one)[:60])
+    empty = mod.MemoryStore()
+    check("recall on an empty store returns []",
+          safe(lambda: empty.recall("anything", 3)) == [], "expected []")
+
     report("Lesson 09 - Memory & Retrieval")
 
 

@@ -14,7 +14,7 @@ The **harness** is what converts latent capability into realized behavior. It is
 
 A popular framing says: *"agency comes from the model, not the harness; harness engineers just build the vehicle."* This is half right and rhetorically self-defeating:
 
-1. **Self-defeating.** If the harness didn't matter, there would be nothing to teach — yet the framing introduces twenty lessons of harness mechanisms. The contradiction is built in.
+1. **Self-defeating.** If the harness didn't matter, there would be nothing to teach — yet the framing introduces twenty-three lessons of harness mechanisms. The contradiction is built in.
 2. **Empirically wrong at the margin.** The *same* model, given good vs poor tools / context / recovery, produces dramatically different task success. That delta is engineering, not training.
 3. **It hides the most important skill.** If you believe the harness is a passive vehicle, you never learn to *measure* it. Measurement is the whole game (see [methodology](./methodology.md)).
 

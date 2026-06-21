@@ -24,6 +24,8 @@ def run_with_recovery(fn, fallback, max_retries: int = 3):
     #   except TransientError:  continue        # retry
     #   except PermanentError:  return fallback(), {"outcome":"fallback",
     #                                   "reason":"permanent","attempts":attempt}
+    #   except Exception:       return fallback(), {"outcome":"fallback",
+    #                                   "reason":"unclassified","attempts":attempt}
     # If the loop finishes without success:
     #   return fallback(), {"outcome":"fallback","reason":"exhausted",
     #                       "attempts": max_retries}

@@ -55,9 +55,15 @@ def main():
           isinstance(w, str) and "get_weather" in w and "Paris" in w, repr(w)[:70])
     check("the server received the ORIGINAL (unprefixed) name + args",
           ("get_weather", {"city": "Paris"}) in server.calls, f"calls={server.calls}")
-    check("the second tool is mounted independently (closure bound correctly)",
-          isinstance(t, str) and "get_time" in t
-          and ("get_time", {"tz": "UTC"}) in server.calls, repr(t)[:70])
+    check("BOTH tools are bound per-iteration (closure): each forwards its OWN name",
+          ("get_weather", {"city": "Paris"}) in server.calls
+          and ("get_time", {"tz": "UTC"}) in server.calls,
+          f"late-binding bug would send ('get_time', ...) for weather: {server.calls}")
+    check("mounted schemas forward the MCP tool's description and input_schema",
+          any(s.get("description") == "Get weather"
+              and s.get("input_schema", {}).get("properties", {}).get("city")
+              for s in reg.schemas()),
+          f"metadata dropped: {reg.schemas()}")
 
     report("Lesson 11 - MCP")
 

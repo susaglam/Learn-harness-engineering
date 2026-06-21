@@ -18,6 +18,11 @@ def due(jobs, now):
     for j in jobs:
         if j["next_run"] <= now:
             fired.append(j)
-            while j["next_run"] <= now:        # catch up past long gaps
-                j["next_run"] += j["interval"]
+            if j["interval"] > 0:
+                while j["next_run"] <= now:     # catch up past long gaps
+                    j["next_run"] += j["interval"]
+            else:
+                # A non-positive interval can't advance -- treat it as one-shot
+                # (fire once, never reschedule) instead of spinning forever.
+                j["next_run"] = float("inf")
     return fired

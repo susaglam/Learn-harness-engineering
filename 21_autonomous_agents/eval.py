@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import os
 import sys
+import threading
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
@@ -41,6 +42,34 @@ def main():
     check("ownership reflects the claiming agent (second claim -> B)",
           isinstance(c2, dict) and c2.get("owner") == "B", repr(c2)[:70])
     check("an exhausted board returns None", c4 is None, repr(c4)[:60])
+
+    # --- force BOTH guard clauses (status AND owner) to be load-bearing ---
+    board2 = [{"id": "a", "status": "in_progress"},            # unowned, but not pending
+              {"id": "b", "status": "pending", "owner": "x"},  # pending, but already owned
+              {"id": "c", "status": "pending"}]                # the only truly claimable one
+    cc = safe(lambda: mod.claim_next(board2, "w"))
+    check("skips in_progress and already-owned tasks; claims only the free one",
+          isinstance(cc, dict) and cc.get("id") == "c",
+          f"a status-only or owner-only guard picks the wrong task: {cc!r}"[:90])
+
+    # --- the invariant the lesson exists for: concurrent claims => exactly one winner ---
+    solo = [{"id": "solo", "status": "pending"}]
+    winners = []
+    gate = threading.Barrier(8)
+
+    def worker():
+        gate.wait()                        # release all threads at once (max contention)
+        got = mod.claim_next(solo, "w")
+        if got is not None:
+            winners.append(got)
+
+    ts = [threading.Thread(target=worker) for _ in range(8)]
+    for t in ts:
+        t.start()
+    for t in ts:
+        t.join()
+    check("under concurrency exactly ONE agent claims the single task (no double-claim)",
+          len(winners) == 1, f"{len(winners)} agents claimed the same task")
 
     report("Lesson 21 - Autonomous Agents")
 

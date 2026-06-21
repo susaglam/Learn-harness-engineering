@@ -2,7 +2,7 @@
 
 Reads from `.env` (via python-dotenv if installed):
     ANTHROPIC_API_KEY   required for real calls
-    MODEL_ID            defaults to claude-sonnet-4-6
+    MODEL_ID            defaults to claude-sonnet-4-8 (matches .env.example)
     ANTHROPIC_BASE_URL  optional; set it to use an Anthropic-compatible provider
 
 The anthropic SDK is imported lazily inside get_client() so that eval scripts
@@ -22,7 +22,7 @@ except ImportError:  # dotenv is optional; env vars may be set another way
 
 def get_model() -> str:
     """The model id to use. Override with MODEL_ID in .env."""
-    return os.environ.get("MODEL_ID", "claude-sonnet-4-6")
+    return os.environ.get("MODEL_ID", "claude-sonnet-4-8")
 
 
 def get_client():
