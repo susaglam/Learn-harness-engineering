@@ -36,6 +36,8 @@ python 07_context_economics/eval.py                       # GREEN (after the TOD
 # reference check (PowerShell): $env:LHE_SOLUTION=1; python 07_context_economics/eval.py
 ```
 
+> **Toy → production:** this drops the middle with a *marker*, not a real summary, and frees only the middle — a large recent tail can still exceed budget. Bounding big tool outputs is **Lesson 27**.
+
 → Next: **Lesson 08 — Subagents** (*delegate the noise, keep the signal*).
 
 ← [Curriculum](../CURRICULUM.md) · [README](../README.md)

@@ -37,6 +37,8 @@ python 18_cron_scheduler/eval.py                       # GREEN (after the TODO)
 # reference check (PowerShell): $env:LHE_SOLUTION=1; python 18_cron_scheduler/eval.py
 ```
 
+> **Toy → production:** jobs live in memory and vanish on restart. A durable scheduler persists them and uses leases (**Lesson 25**) so a crashed runner's job is reclaimed, not lost.
+
 → Next: **Lesson 19 — Agent Teams & Protocols** (*too big for one — coordinate many*).
 
 ← [Curriculum](../CURRICULUM.md) · [README](../README.md)

@@ -38,6 +38,8 @@ python 07_context_economics/eval.py                       # GREEN (TODO'dan sonr
 # referans kontrolü (PowerShell): $env:LHE_SOLUTION=1; python 07_context_economics/eval.py
 ```
 
+> **Toy → production:** bu, ortayı bir *marker* ile düşürür (gerçek özet değil) ve yalnızca ortayı boşaltır — büyük bir recent tail yine bütçeyi aşabilir. Büyük tool çıktılarını sınırlamak **Ders 27**'dir.
+
 → Sonraki: **Ders 08 — Subagents** (*gürültüyü devret, sinyali tut*).
 
 ← [Müfredat](../CURRICULUM.tr.md) · [README](../README.tr.md)

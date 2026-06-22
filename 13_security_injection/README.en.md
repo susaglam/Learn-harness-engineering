@@ -39,6 +39,8 @@ python 13_security_injection/eval.py                       # GREEN (after the TO
 # reference check (PowerShell): $env:LHE_SOLUTION=1; python 13_security_injection/eval.py
 ```
 
+> **Toy → production:** heuristic detection is a tripwire, not a filter — it both *misses* (paraphrase, encoding) and *false-positives* (a benign `<system>` mention, "you are now a member"). Pair it with the permission gate (L12), least privilege, and secret redaction (**Lesson 24**) — never hard-block on it alone.
+
 → Next: **Lesson 14 — Hooks** (*extend around the loop, never rewrite it*).
 
 ← [Curriculum](../CURRICULUM.md) · [README](../README.md)

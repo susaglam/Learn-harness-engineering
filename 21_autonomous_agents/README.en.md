@@ -35,6 +35,8 @@ python 21_autonomous_agents/eval.py                       # GREEN (after the TOD
 # reference check (PowerShell): $env:LHE_SOLUTION=1; python 21_autonomous_agents/eval.py
 ```
 
+> **Toy → production:** the in-process `Lock` only guards one process. Across processes or machines you need a lease with a TTL so a crashed claimant's task is reclaimed — **Lesson 25**.
+
 → Next: **Lesson 22 — The Orchestration Spectrum** (*hardcode what must be reliable; delegate what must be smart*).
 
 ← [Curriculum](../CURRICULUM.md) · [README](../README.md)

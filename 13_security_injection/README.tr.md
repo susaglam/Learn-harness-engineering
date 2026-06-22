@@ -41,6 +41,8 @@ python 13_security_injection/eval.py                       # GREEN (TODO'dan son
 # referans kontrolü (PowerShell): $env:LHE_SOLUTION=1; python 13_security_injection/eval.py
 ```
 
+> **Toy → production:** heuristic tespit bir tel-tuzaktır, filtre değil — hem *kaçırır* (paraphrase, encoding) hem *false-positive* verir (zararsız bir `<system>` geçişi, "you are now a member"). Bunu permission gate (L12), least privilege ve secret redaction (**Ders 24**) ile birleştir — tek başına hard-block yapma.
+
 → Sonraki: **Ders 14 — Hooks** (*döngünün etrafını genişlet, döngüyü yazma*).
 
 ← [Müfredat](../CURRICULUM.tr.md) · [README](../README.tr.md)

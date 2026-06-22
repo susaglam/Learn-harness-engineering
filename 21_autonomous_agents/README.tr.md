@@ -37,6 +37,8 @@ python 21_autonomous_agents/eval.py                       # GREEN (TODO'dan sonr
 # referans kontrolü (PowerShell): $env:LHE_SOLUTION=1; python 21_autonomous_agents/eval.py
 ```
 
+> **Toy → production:** in-process `Lock` yalnızca tek bir process'i korur. Process'ler/makineler arası, çökmüş bir claimant'ın task'ı reclaim edilsin diye TTL'li bir lease gerekir — **Ders 25**.
+
 → Sonraki: **Ders 22 — The Orchestration Spectrum** (*güvenilir olması gerekeni sabitle, akıllı olması gerekeni devret*).
 
 ← [Müfredat](../CURRICULUM.tr.md) · [README](../README.tr.md)

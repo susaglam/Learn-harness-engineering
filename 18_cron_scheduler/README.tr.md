@@ -39,6 +39,8 @@ python 18_cron_scheduler/eval.py                       # GREEN (TODO'dan sonra)
 # referans kontrolü (PowerShell): $env:LHE_SOLUTION=1; python 18_cron_scheduler/eval.py
 ```
 
+> **Toy → production:** job'lar bellekte yaşar ve restart'ta kaybolur. Durable bir scheduler onları kalıcılaştırır ve lease kullanır (**Ders 25**) — böylece çökmüş bir runner'ın job'ı kaybolmaz, reclaim edilir.
+
 → Sonraki: **Ders 19 — Agent Teams & Protocols** (*tek ajana büyük gelen iş → koordinasyon*).
 
 ← [Müfredat](../CURRICULUM.tr.md) · [README](../README.tr.md)
