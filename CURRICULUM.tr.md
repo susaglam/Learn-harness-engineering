@@ -1,4 +1,4 @@
-# Müfredat — 6 Ark, 23 Ders
+# Müfredat — 7 Ark, 29 Ders
 
 [English](./CURRICULUM.md) | [Türkçe](./CURRICULUM.tr.md)
 
@@ -62,6 +62,17 @@ Her ders, değişmeyen agent loop'un üzerine **bir** harness mekanizması ekler
 |---|---|---|---|---|
 | 22 | Orchestration Spectrum | *Güvenilir olması gerekeni sabitle, akıllı olması gerekeni devret* | Aynı görevi determinizm↔otonomi ekseninde 3 noktada çöz, notla | ✅ |
 | 23 | Comprehensive Agent | *Çok mekanizma, tek ölçülebilir döngü* | Tüm mekanizmaları tek döngü etrafında birleştir, eval'lerle kanıtla | ✅ |
+
+## Ark 7 — Production *(oyuncağın gerçek dünyayla buluştuğu yer)*
+
+| # | Ders | Motto | Ne kuracaksın | Durum |
+|---|---|---|---|---|
+| 24 | Secrets, Sandboxing & Audit | *Secret'ı modele/log'a ulaştırma* | Bilinen + secret-biçimli değerleri redact et | ✅ |
+| 25 | Concurrency & Leases | *Yenilemediğin claim'i kaybedersin* | TTL'li lease acquire (expire'da reclaim) | ✅ |
+| 26 | Human-in-the-Loop | *Bazı eylemler bir insanı bekler* | Onay-kapılı execute (pending / approved / denied) | ✅ |
+| 27 | Tool-Result Management | *10MB'lık sonuç context'i patlatır* | Head+tail alıntı + artifact handle | ✅ |
+| 28 | Versioning & Migration | *Uzun yaşayan state migration ister* | Sıralı record-migration zinciri | ✅ |
+| 29 | Eval Expansion | *Vibe değil, yörünge notla — bütçelerle* | Golden-trajectory + budget scorer'ları | ✅ |
 
 ---
 

@@ -29,10 +29,12 @@ all 23 lessons are RED(stub) → GREEN(reference) and `run_all_evals.py` is gree
 
 ---
 
-## v2 curriculum — candidate additions
+## v2 curriculum — SHIPPED as Arc 7 (Production)
 
-The course teaches *toy* mechanisms well; the main gap is marking where the toy
-stops and production begins.
+Items 2–7 below now exist as eval-verified lessons **24–29** (EN/TR), turning the
+candidate list into a real arc. Item 1 (production-bridge "Toy vs production"
+callouts inside the Arc 1–6 lesson READMEs) is the remaining decorative piece;
+the Arc 7 lessons themselves are the production content.
 
 1. **Production-bridge notes** — a short "Toy vs production" callout at the end of
    each lesson where the gap is sharp (compaction isn't real summarization;

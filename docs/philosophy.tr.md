@@ -16,7 +16,7 @@ Model (LLM), devasa metin üzerinde gradient descent ile şekillenmiş bir fonks
 
 Popüler bir çerçeve der ki: *"agency modelden gelir, harness'ten değil; harness mühendisleri sadece aracı kurar."* Bu yarı-doğru ve retorik olarak kendini baltalar:
 
-1. **Kendini baltalar.** Harness önemli olmasaydı öğretilecek hiçbir şey olmazdı — oysa çerçeve yirmi üç ders dolusu harness mekanizması sunar. Çelişki içine gömülüdür.
+1. **Kendini baltalar.** Harness önemli olmasaydı öğretilecek hiçbir şey olmazdı — oysa çerçeve yirmi dokuz ders dolusu harness mekanizması sunar. Çelişki içine gömülüdür.
 2. **Sınırda ampirik olarak yanlış.** *Aynı* model, iyi vs kötü tool / context / recovery ile çarpıcı biçimde farklı başarı oranı verir. Bu fark eğitim değil, mühendisliktir.
 3. **En önemli beceriyi gizler.** Harness'i pasif bir araç sanırsan onu **ölçmeyi** asla öğrenmezsin. Oysa bütün oyun ölçmektir (bkz. [metodoloji](./methodology.tr.md)).
 

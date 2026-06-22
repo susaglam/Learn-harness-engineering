@@ -45,8 +45,8 @@ python 23_comprehensive/eval.py                       # GREEN (TODO'dan sonra)
 # referans kontrolü (PowerShell): $env:LHE_SOLUTION=1; python 23_comprehensive/eval.py
 ```
 
-## Bitirdin
+## Çekirdeği kurdun
 
-Yirmi üç mekanizma, tek loop, her biri yeşile çevirdiğin bir kırmızı testle kanıtlandı. Harness mühendisliğini okumadın — onu kurdun ve ölçtün. **Ölçülebilir bir ajan, ihtiyacın olan tek şeydir.**
+Ark 1–6 bitti: yirmi üç ders, tek loop, her biri yeşile çevirdiğin bir kırmızı testle kanıtlandı. Harness mühendisliğini okumadın — onu kurdun ve ölçtün. Sırada, **Arc 7 — Production** bu oyuncak mekanizmaları gerçek-dünya sınırlarına taşıyor (secrets, lease'ler, insan onayı, migration'lar, eval bütçeleri). **Ölçülebilir bir ajan, ihtiyacın olan tek şeydir.**
 
 ← [Müfredat](../CURRICULUM.tr.md) · [README](../README.tr.md)

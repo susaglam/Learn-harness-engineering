@@ -43,8 +43,8 @@ python 23_comprehensive/eval.py                       # GREEN (after the TODO)
 # reference check (PowerShell): $env:LHE_SOLUTION=1; python 23_comprehensive/eval.py
 ```
 
-## You finished
+## You've assembled the core
 
-Twenty-three mechanisms, one loop, every one proven by a failing test you made pass. You didn't read about harness engineering — you built it, and measured it. **A measurable agent is all you need.**
+Arcs 1–6 done: twenty-three lessons, one loop, every one proven by a failing test you made pass. You didn't read about harness engineering — you built it, and measured it. Next, **Arc 7 — Production** takes these toy mechanisms to their real-world boundaries (secrets, leases, human approval, migrations, eval budgets). **A measurable agent is all you need.**
 
 ← [Curriculum](../CURRICULUM.md) · [README](../README.md)

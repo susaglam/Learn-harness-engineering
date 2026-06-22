@@ -1,4 +1,4 @@
-# Curriculum — 6 Arcs, 23 Lessons
+# Curriculum — 7 Arcs, 29 Lessons
 
 [English](./CURRICULUM.md) | [Türkçe](./CURRICULUM.tr.md)
 
@@ -60,6 +60,17 @@ Each lesson adds **one** harness mechanism on top of the unchanging agent loop, 
 |---|---|---|---|---|
 | 22 | The Orchestration Spectrum | *Hardcode what must be reliable; delegate what must be smart* | The same task solved at 3 points on the determinism↔autonomy axis, scored | ✅ |
 | 23 | Comprehensive Agent | *Many mechanisms, one measurable loop* | Assemble every mechanism around one loop, with evals proving it | ✅ |
+
+## Arc 7 — Production *(where the toy meets the real world)*
+
+| # | Lesson | Motto | What you build | Status |
+|---|---|---|---|---|
+| 24 | Secrets, Sandboxing & Audit | *Never let a secret reach the model or a log* | Redact known + secret-shaped values | ✅ |
+| 25 | Concurrency & Leases | *A claim you don't renew, you lose* | A lease-with-TTL acquire (reclaim on expiry) | ✅ |
+| 26 | Human-in-the-Loop | *Some actions wait for a human* | An approval-gated execute (pending / approved / denied) | ✅ |
+| 27 | Tool-Result Management | *A 10MB result will blow your context* | Head+tail excerpt + artifact handle | ✅ |
+| 28 | Versioning & Migration | *Long-lived state needs migrations* | An ordered record-migration chain | ✅ |
+| 29 | Eval Expansion | *Grade trajectories, not vibes — with budgets* | Golden-trajectory + budget scorers | ✅ |
 
 ---
 

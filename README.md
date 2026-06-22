@@ -95,7 +95,7 @@ Every eval runs **without an API key** — each drives your harness logic with a
 
 ---
 
-## Curriculum — 6 arcs, 23 lessons
+## Curriculum — 7 arcs, 29 lessons
 
 Full list with mottos: **[CURRICULUM.md](./CURRICULUM.md)**.
 
@@ -107,6 +107,7 @@ Full list with mottos: **[CURRICULUM.md](./CURRICULUM.md)**.
 | **4. Hardening** | make it safe and robust | Permissions · **Security & Injection** · Hooks · Error Recovery |
 | **5. Scale** | long-running, many agents | Task Graphs · Background · Cron · Teams · Worktrees · Autonomous |
 | **6. Synthesis** | put it together, honestly | **The Orchestration Spectrum** · Comprehensive Agent |
+| **7. Production** | where the toy meets the real world | Secrets & Sandboxing · Concurrency & Leases · Human-in-the-Loop · Tool-Result Mgmt · Versioning · Eval Expansion |
 
 **Bold** = topics the predecessor course was missing. Two early moves matter most: **System Prompt** and **Evaluation** come *first* (they frame everything); **Permissions, Security, and Hooks** come *later*, grouped as a "hardening" arc — you harden an agent that already does useful work, not before.
 
@@ -144,7 +145,7 @@ python 01_agent_loop/reference.py
 ```
 learn-harness-engineering/
   README.md / README.tr.md        # this file (EN / TR)
-  CURRICULUM.md / .tr.md          # the full 23-lesson map
+  CURRICULUM.md / .tr.md          # the full 29-lesson map
   docs/
     philosophy.md / .tr.md        # the thesis & the orchestration spectrum, in depth
     methodology.md / .tr.md       # the eval-driven teaching method, in depth
@@ -158,7 +159,7 @@ learn-harness-engineering/
     reference.py                  #   complete implementation
     stub.py                       #   you implement the TODO
     eval.py                       #   fails until your stub is correct
-  02_tool_use/ ... 23_comprehensive/
+  02_tool_use/ ... 29_eval_expansion/
   skills/                         # example SKILL.md packages Lesson 10 can load (+ demo.py)
   scripts/                        # scaffold_lessons.py, build_web.py
   web/                            # generated single-file preview (web/index.html, git-ignored)
