@@ -29,7 +29,7 @@ Hooks are how a harness grows without rot. Permissions (L12), injection scanning
 
 `HookBus` is given. In [`stub.py`](./stub.py), implement `call_tool_with_hooks(bus, name, tool_input, handler)`:
 
-1. Run each pre-hook; if one returns a string starting with `"deny"`, return `f"BLOCKED: {verdict}"` **without** running the handler.
+1. Run each pre-hook; if one returns a string starting with `"deny"`, return `f"BLOCKED: {verdict}"` immediately — **without** running the handler *or the post-hooks*.
 2. Otherwise run `handler(**tool_input)`.
 3. Pass the result through each post-hook (each may transform it), then return it.
 

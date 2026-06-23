@@ -31,53 +31,39 @@ all 23 lessons are RED(stub) → GREEN(reference) and `run_all_evals.py` is gree
 
 ## v2 curriculum — SHIPPED as Arc 7 (Production)
 
-Items 2–7 below now exist as eval-verified lessons **24–29** (EN/TR), turning the
-candidate list into a real arc. Item 1 (production-bridge "Toy vs production"
-callouts inside the Arc 1–6 lesson READMEs) is the remaining decorative piece;
-the Arc 7 lessons themselves are the production content.
-
-1. **Production-bridge notes** — a short "Toy vs production" callout at the end of
-   each lesson where the gap is sharp (compaction isn't real summarization;
-   in-process lock vs DB lease; heuristic injection detection vs a real filter;
-   in-memory cron vs durable store). *Cheapest, highest-value; partially started
-   in L21/L07 reference notes.*
-2. **Secrets, sandboxing & audit trail** (extends Arc 4) — secret redaction,
-   credential scoping, an exfiltration eval, a shell sandbox.
-3. **Concurrency & leases** (extends L21) — locks, lease + TTL, retry
-   idempotency, reclaiming a crashed claimant's work.
-4. **Eval expansion** (extends L04) — golden trajectories, adversarial evals,
-   cost/latency budgets, a regression dashboard.
-5. **Human-in-the-loop** — approval UX, pause/resume, cancel, rollback, escalation
-   (beyond L12's allow/ask/deny).
-6. **Tool-result management** — large-output truncation, artifact storage,
-   structured summaries, provenance.
-7. **Versioning & migration** — prompt / schema / skill / memory migration for
-   long-lived agents.
+The second-reviewer roadmap is fully shipped as eval-verified lessons **24–29**
+(EN/TR): Secrets/Sandboxing & Audit, Concurrency & Leases, Human-in-the-Loop,
+Tool-Result Management, Versioning & Migration, Eval Expansion. Production-bridge
+"Toy → production" callouts link the sharpest Arc 1–6 lessons to their hardened
+counterpart (L07→L27, L13→L24, L18→L25, L21→L25), and each Arc 7 lesson links
+back to the toy it grows up from.
 
 ---
 
-## Backlog (minor / nit, by area)
+## Backlog — cleared
 
-Small, low-risk improvements; safe to pick up piecemeal.
+Every confirmed item from the multi-agent audit has been addressed:
 
-- **L01** — note that error handling is deferred to L02; guard the empty
-  tool-turn in `reference.py` (harness/loop.py already does).
-- **L05** — test `.strip()` normalization; optionally validate unknown status.
-- **L06** — assert the first feedback is empty.
-- **L10** — note real `SKILL.md` uses YAML frontmatter; reject `..`/separators in `name`.
-- **L11** — demo two servers with the same tool name to justify `prefix`.
-- **L12** — README predicate should use `i.get("command","")` (matches the eval).
-- **L13** — compile patterns with `re.DOTALL`; add a false-positives note to the caveat.
-- **L14** — state that post-hooks don't run on a blocked call.
-- **L16** — add fixtures: a task with no `blockedBy` key; a dangling dependency.
-- **L17** — `drain()` is best-effort; deadline-based join + `get_nowait`.
-- **L19** — assert FIFO by sending two messages to one inbox.
-- **L20** — assert the stored binding (so a stateless `allocate` fails).
-- **L23** — branch on all three permission decisions (`ask` is currently auto-allowed);
-  record a terminal event on `max_turns`; reuse L04 scorers in the eval.
-- **Web** (`scripts/build_web.py`) — fix `lesson_title` acronyms (MCP/IO), add a
-  `hashchange` listener, rewrite in-SPA `.md` links, persist language in the hash.
-- **Docs** — call the glossary a "core-terms" glossary (or add the missing terms);
-  reword duplicate RED/GREEN "Run it" commands as before/after.
-- **Hygiene** — consider pinning `requirements.txt` upper bounds; optional
-  `SECURITY.md`, `CODE_OF_CONDUCT.md`, issue/PR templates, `CHANGELOG.md`.
+- **Evals hardened** (no longer gameable): L04, L07, L09, L11, L13, L17, L21, L22, L23.
+- **Eval rigor added**: L05 `.strip()`, L06 first-feedback, L11 multi-server prefix,
+  L16 dangling-dep / no-`blockedBy`, L19 FIFO, L20 stored-binding, L10 path-traversal.
+- **Correctness**: L01 empty-turn guard, L10 traversal guard, L13 `re.DOTALL`,
+  L15 unclassified-error fallback, L18 one-shot interval, L21 atomic `Lock`,
+  L23 three-way permission + `exhausted` trace; runner RED-signal + loop guards.
+- **Prose**: L12 predicate, L13 false-positives, L14 post-hook contract, L10 YAML note,
+  cross-platform Quickstart, accurate import/claims, MODEL_ID, lesson counts,
+  glossary "core-terms" wording, "loop never changes" softening.
+- **Tooling / hygiene**: `run_all_evals.py` + CI, `CONTRIBUTING.md`, `.editorconfig`,
+  `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`, issue/PR templates, pinned
+  `requirements.txt` (dropped unused `pyyaml`), `scaffold_lessons.py` covers 24–29,
+  web fixes (acronyms, link rewriting, hashchange, language-in-hash).
+
+### Intentional simplifications (left as-is, by design)
+
+- **L05** maps an unknown status to `pending` — input validation is L06's subject.
+- **L17** `drain()` is best-effort (eval jobs finish instantly); a deadline join +
+  `get_nowait` is the production form.
+- **L23** keeps its own simple trajectory checks instead of importing L04's scorers
+  (a capstone reads cleaner self-contained).
+- The "Run it" blocks show the command twice (`# RED` then `# GREEN`) — the
+  consistent repo convention; L01/L02 spell out the before/after in words.

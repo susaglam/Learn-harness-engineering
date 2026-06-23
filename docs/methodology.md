@@ -57,7 +57,7 @@ Educational content should welcome beginners. In the Turkish docs we therefore:
 
 1. **Keep technical terms in English** (you'll meet them that way in code and industry).
 2. **Gloss each term on first use** in parentheses: *harness (koşum takımı — modelin çalışma ortamı)*.
-3. Maintain one beginner-friendly **[glossary](./terminoloji.tr.md)** as the single source of truth.
+3. Maintain a beginner-friendly **[glossary](./terminoloji.tr.md)** of the *core* terms (lesson-specific terms are glossed inline on first use).
 
 This minimizes cognitive load while maximizing transfer to real code. English docs assume the reader reads English technical terms natively; a concise [English glossary](./glossary.md) mirrors the Turkish one for newcomers.
 

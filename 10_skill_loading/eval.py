@@ -54,6 +54,9 @@ def main():
               isinstance(pdf_body, str) and "Extract text" in pdf_body, "expected full doc")
         check("load() of an unknown skill returns an ERROR string",
               isinstance(unknown, str) and unknown.startswith("ERROR"), repr(unknown)[:70])
+        traversal = safe(lambda: mgr.load("../secrets"))
+        check("load() refuses a path-traversal name (stays inside skills_dir)",
+              isinstance(traversal, str) and traversal.startswith("ERROR"), repr(traversal)[:70])
     finally:
         shutil.rmtree(root, ignore_errors=True)
 

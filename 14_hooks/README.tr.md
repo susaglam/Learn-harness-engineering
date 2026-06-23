@@ -31,7 +31,7 @@ Hook'lar, bir harness'in çürümeden büyümesinin yoludur. Permission'lar (Der
 
 `HookBus` verilmiş. [`stub.py`](./stub.py) içinde `call_tool_with_hooks(bus, name, tool_input, handler)`'i uygula:
 
-1. Her pre-hook'u çalıştır; biri `"deny"` ile başlayan bir string döndürürse, handler'ı **çalıştırmadan** `f"BLOCKED: {verdict}"` döndür.
+1. Her pre-hook'u çalıştır; biri `"deny"` ile başlayan bir string döndürürse, handler'ı **ya da post-hook'ları çalıştırmadan** hemen `f"BLOCKED: {verdict}"` döndür.
 2. Değilse `handler(**tool_input)`'i çalıştır.
 3. Sonucu her post-hook'tan geçir (her biri dönüştürebilir), sonra döndür.
 

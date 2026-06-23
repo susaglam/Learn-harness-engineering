@@ -1,6 +1,5 @@
-# Core — needed from Lesson 01
-anthropic>=0.40.0
-python-dotenv>=1.0.0
-
-# Used by later arcs (skills, config). Safe to install now.
-pyyaml>=6.0
+# Needed ONLY to run a lesson against a real model (reference.py / get_client).
+# The evals themselves are dependency-free (fake models), so the suite runs even
+# without these. Upper bounds guard against a breaking major release in CI.
+anthropic>=0.40,<1.0
+python-dotenv>=1.0,<2.0

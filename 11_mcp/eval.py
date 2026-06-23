@@ -65,6 +65,18 @@ def main():
               for s in reg.schemas()),
           f"metadata dropped: {reg.schemas()}")
 
+    # --- prefix prevents collisions: mount a SECOND server with the same tools ---
+    server2 = FakeMCPServer()
+    safe(lambda: mod.mount_mcp_server(reg, server2, prefix="alt_"))
+    names2 = [s["name"] for s in reg.schemas()]
+    safe(lambda: reg.dispatch("alt_get_weather", {"city": "Rome"}))
+    check("a second server mounts under a different prefix without colliding",
+          "mcp_get_weather" in names2 and "alt_get_weather" in names2, f"names={names2}")
+    check("each prefix routes to its OWN server instance",
+          ("get_weather", {"city": "Rome"}) in server2.calls
+          and ("get_weather", {"city": "Rome"}) not in server.calls,
+          f"server2={server2.calls}")
+
     report("Lesson 11 - MCP")
 
 

@@ -36,6 +36,11 @@ python 10_skill_loading/eval.py                       # GREEN (after the TODO)
 # reference check (PowerShell): $env:LHE_SOLUTION=1; python 10_skill_loading/eval.py
 ```
 
+> **Note:** real Claude `SKILL.md` files put the description in a YAML frontmatter
+> `description:` field; we use the first non-heading line to keep parsing trivial.
+> A hardened loader also rejects names with path separators or `..` — no traversal
+> outside `skills_dir` (cf. **Lessons 13 & 24**).
+
 → Next: **Lesson 11 — MCP** (*borrow capabilities; keep one tool pool*).
 
 ← [Curriculum](../CURRICULUM.md) · [README](../README.md)

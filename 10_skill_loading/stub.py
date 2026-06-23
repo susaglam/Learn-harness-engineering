@@ -34,6 +34,8 @@ class SkillManager:
     def load(self, name: str) -> str:
         # =====================================================================
         # TODO(you):
+        #   - Reject path traversal first: if "/" in name or "\\" in name or
+        #     name in ("", ".", "..") -> return f"ERROR: invalid skill name '{name}'".
         #   path = os.path.join(self.skills_dir, name, "SKILL.md")
         #   - if it's not a file -> return f"ERROR: unknown skill '{name}'"
         #   - otherwise open it (encoding="utf-8") and return the full text.

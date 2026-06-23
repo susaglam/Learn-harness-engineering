@@ -1,6 +1,6 @@
 # Terminoloji Sözlüğü
 
-> Bu kurs teknik terimleri **İngilizce orijinaliyle** kullanır — çünkü kodda, kütüphane dokümanlarında ve iş hayatında karşına hep bu terimler çıkacak. Burada her terimi **yeni başlayan birinin anlayacağı** şekilde açıklıyoruz. Türkçe karşılığı parantez içinde verdik; ama günlük kullanımda İngilizcesini tercih et.
+> Bu kurs teknik terimleri **İngilizce orijinaliyle** kullanır — çünkü kodda, kütüphane dokümanlarında ve iş hayatında karşına hep bu terimler çıkacak. Burada **çekirdek terimleri** **yeni başlayan birinin anlayacağı** şekilde açıklıyoruz; her dersin kendine özgü terimleri ise o derste ilk geçişte parantez içinde açıklanır. Türkçe karşılığı parantez içinde verdik; ama günlük kullanımda İngilizcesini tercih et.
 >
 > Format: **terim** *(Türkçe karşılık)* — açıklama.
 

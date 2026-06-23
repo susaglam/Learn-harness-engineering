@@ -2,7 +2,8 @@
 
 [English](./glossary.md) | [Türkçe](./terminoloji.tr.md)
 
-A beginner-friendly reference for the terms used across the course.
+A beginner-friendly reference for the **core terms** used across the course.
+Lesson-specific terms are glossed inline on first use within each lesson.
 
 ## Core
 - **model / LLM** — the neural network that generates text; where "intelligence" comes from.

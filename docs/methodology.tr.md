@@ -59,7 +59,7 @@ check("tool sonucu geri beslendi mi", client.saw_tool_result)   # SENİN döngü
 
 1. **Teknik terimleri İngilizce tutarız** (kodda ve sektörde onlarla bu şekilde karşılaşacaksın).
 2. **Her terimi ilk geçişte parantezle açıklarız**: *harness (koşum takımı — modelin çalışma ortamı)*.
-3. Tek doğruluk kaynağı olarak yeni-başlayan-dostu bir **[sözlük](./terminoloji.tr.md)** tutarız.
+3. *Çekirdek* terimler için yeni-başlayan-dostu bir **[sözlük](./terminoloji.tr.md)** tutarız (derse özgü terimler ilk geçişte inline açıklanır).
 
 Bu, bilişsel yükü en aza indirir ve gerçek koda transferi en üst düzeye çıkarır. İngilizce dokümanlar, okurun teknik terimleri zaten İngilizce okuduğunu varsayar; yeni başlayanlar için kısa bir [İngilizce sözlük](./glossary.md) Türkçesini aynalar.
 

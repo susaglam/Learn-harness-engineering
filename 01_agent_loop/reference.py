@@ -43,6 +43,11 @@ def agent_loop(client, model, messages, tools, handlers, system="", max_turns=10
                         "content": str(output),
                     }
                 )
+        # If the model signalled tool_use but emitted no tool_use block, there's
+        # nothing to feed back -- return rather than post an empty (API-invalid)
+        # user turn. (Per-tool error handling arrives in Lesson 02.)
+        if not results:
+            return last
         messages.append({"role": "user", "content": results})
 
     return last

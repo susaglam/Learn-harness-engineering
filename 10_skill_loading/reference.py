@@ -34,6 +34,8 @@ class SkillManager:
 
     def load(self, name: str) -> str:
         """Load the FULL skill body on demand."""
+        if "/" in name or "\\" in name or name in ("", ".", ".."):
+            return f"ERROR: invalid skill name '{name}'"   # reject path traversal (cf. L13)
         path = os.path.join(self.skills_dir, name, "SKILL.md")
         if not os.path.isfile(path):
             return f"ERROR: unknown skill '{name}'"

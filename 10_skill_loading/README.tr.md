@@ -38,6 +38,11 @@ python 10_skill_loading/eval.py                       # GREEN (TODO'dan sonra)
 # referans kontrolü (PowerShell): $env:LHE_SOLUTION=1; python 10_skill_loading/eval.py
 ```
 
+> **Not:** gerçek Claude `SKILL.md` dosyaları açıklamayı YAML frontmatter
+> `description:` alanına koyar; biz parse'ı basit tutmak için ilk başlıksız satırı
+> kullanıyoruz. Sağlamlaştırılmış bir loader ayrıca path separator ya da `..`
+> içeren adları reddeder — `skills_dir` dışına çıkış yok (bkz. **Ders 13 & 24**).
+
 → Sonraki: **Ders 11 — MCP** (*yeteneği ödünç al, tek havuzda tut*).
 
 ← [Müfredat](../CURRICULUM.tr.md) · [README](../README.tr.md)
